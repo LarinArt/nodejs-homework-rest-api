@@ -7,6 +7,10 @@ const emailRegexp = /^[\w.]+@[\w]+.[\w]+$/;
 
 const contactSchema = new Schema(
   {
+    name: {
+      type: String,
+      required: [true, "Please, set name for contact"],
+    },
     email: {
       type: String,
       required: [true, "Please, set email for contact"],
@@ -24,12 +28,14 @@ const contactSchema = new Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }
 );
 
 const addSchema = Joi.object({
+  name: Joi.string().required(),
   email: Joi.string().pattern(emailRegexp).required(),
   phone: Joi.string().pattern(phoneRegexp, "numbers").required(),
   favorite: Joi.boolean().default(false),
